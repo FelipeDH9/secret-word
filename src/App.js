@@ -25,6 +25,12 @@ function App() {
   const [pickedCategory, setPickedCategory] = useState('')
   const [letters, setLetters] = useState([])
 
+  // Game states
+  const [score, setScore] = useState(0)
+  const [guesses, setGuesses] = useState(3)
+  const [guessedLetters, setGuessedLetters] = useState([])
+  const [wrongLetters, setWrongLetters] = useState([])
+
   function pickWordAndCategory() {
     // pick random category
     const categories = Object.keys(words)
@@ -59,9 +65,34 @@ function App() {
   }
 
   // processar letra digitada pelo usuario
-  function verifyLetter() {
-    setGameStage(stages[2].name)
+  function verifyLetter(letter) {
+    const normalizedLetter = letter.toLowerCase()
+
+    //check if letter has already been used
+    if (
+      guessedLetters.includes(normalizedLetter) ||
+      wrongLetters.includes(normalizedLetter)
+    ) {
+      return
+    }
+
+    // push guessed letter or remove a guess
+    if (letters.includes(normalizedLetter)) {
+      setGuessedLetters(actualGuessedLetters => [
+        ...actualGuessedLetters,
+        normalizedLetter
+      ])
+    } else {
+      setWrongLetters(actualWrongLetters => [
+        ...actualWrongLetters,
+        normalizedLetter
+      ])
+    }
+
+    // setGameStage(stages[2].name)
   }
+  console.log('guessedLetters', guessedLetters)
+  console.log('wrongLetters', wrongLetters)
 
   // tela inicial
   function retryGame() {
@@ -78,6 +109,10 @@ function App() {
           word={pickedWord}
           category={pickedCategory}
           letters={letters}
+          guesses={guesses}
+          score={score}
+          wrongLetters={wrongLetters}
+          guessedLetters={guessedLetters}
         />
       )}
       {gameStage === 'end' && <GameOver retryGame={retryGame} />}

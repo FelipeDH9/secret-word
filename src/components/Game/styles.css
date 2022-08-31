@@ -15,6 +15,7 @@
   padding: 1.5em;
   border: 20px solid #ecfa00;
   display: flex;
+  justify-content:space-evenly
 }
 
 .letter, .blankSquare{
