@@ -61,11 +61,9 @@ const Game = ({
       <div className="wrongLettersContainer">
         <p>Letras utilizadas:</p>
         {wrongLetters.map((letter, i) => (
-          <span key={i}>{letter},</span>
+          <span key={i}>{letter}, </span>
         ))}
       </div>
-
-      <button onClick={verifyLetter}>Finalizar jogo!</button>
     </div>
   )
 }
